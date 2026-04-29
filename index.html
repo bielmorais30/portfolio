@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gabriel Morais — Dev Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #12121a;
+      --border:    #1e1e2e;
+      --accent:    #7c3aed;
+      --accent2:   #a78bfa;
+      --green:     #10b981;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --card:      #0f0f1a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10,10,15,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500; font-size: .95rem; color: var(--accent2);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .9rem;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,58,237,.25) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-content { text-align: center; position: relative; z-index: 1; max-width: 800px; }
+    .hero-badge {
+      display: inline-block; margin-bottom: 1.5rem;
+      padding: .35rem 1rem;
+      background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.4);
+      border-radius: 999px; font-size: .8rem; color: var(--accent2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .hero-badge .dot {
+      display: inline-block; width: 8px; height: 8px;
+      background: var(--green); border-radius: 50%; margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .6; transform: scale(1.3); }
+    }
+    .hero-content h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800; line-height: 1.1;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: .75rem;
+    }
+    .hero-content .subtitle {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--muted); margin-bottom: 1.5rem; font-weight: 400;
+    }
+    .hero-content .subtitle span { color: var(--accent2); font-weight: 600; }
+    .hero-desc {
+      font-size: 1rem; color: var(--muted); max-width: 540px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: .75rem 1.75rem; border-radius: 8px; font-size: .95rem;
+      font-weight: 600; text-decoration: none; transition: all .2s;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      border: 1px solid var(--accent);
+    }
+    .btn-primary:hover { background: #6d28d9; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,.35); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex; gap: 2rem; justify-content: center; margin-top: 3.5rem;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat .num { font-size: 2rem; font-weight: 800; color: var(--accent2); }
+    .stat .lbl { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: .8rem;
+      color: var(--accent2); text-transform: uppercase; letter-spacing: .1em;
+      margin-bottom: .5rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700; margin-bottom: 1rem;
+    }
+    .section-line {
+      width: 48px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px; margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; }
+    .about-text strong { color: var(--text); }
+    .about-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem;
+    }
+    .about-card h4 { font-size: .95rem; color: var(--accent2); margin-bottom: 1rem; }
+    .info-item {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .6rem 0; border-bottom: 1px solid var(--border); font-size: .9rem;
+    }
+    .info-item:last-child { border-bottom: none; }
+    .info-icon { font-size: 1.1rem; }
+    .info-label { color: var(--muted); min-width: 80px; }
+    .info-value { color: var(--text); }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--surface); }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .skill-card h4 {
+      font-size: .8rem; text-transform: uppercase; letter-spacing: .08em;
+      color: var(--muted); margin-bottom: 1rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag {
+      padding: .3rem .75rem; border-radius: 6px; font-size: .82rem; font-weight: 500;
+      background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.25); color: var(--accent2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .tag.green  { background: rgba(16,185,129,.1);  border-color: rgba(16,185,129,.25);  color: #6ee7b7; }
+    .tag.blue   { background: rgba(59,130,246,.1);  border-color: rgba(59,130,246,.25);  color: #93c5fd; }
+    .tag.orange { background: rgba(245,158,11,.1);  border-color: rgba(245,158,11,.25);  color: #fcd34d; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem; display: flex; flex-direction: column;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0; transition: opacity .2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 36px rgba(124,58,237,.2); }
+    .project-card:hover::before { opacity: 1; }
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .project-icon { font-size: 2rem; }
+    .project-links { display: flex; gap: .5rem; }
+    .project-links a {
+      color: var(--muted); text-decoration: none; font-size: .85rem;
+      padding: .3rem .6rem; border: 1px solid var(--border); border-radius: 6px;
+      transition: all .2s;
+    }
+    .project-links a:hover { color: var(--accent2); border-color: var(--accent2); }
+    .project-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
+    .project-card p { color: var(--muted); font-size: .88rem; flex: 1; margin-bottom: 1.25rem; }
+    .project-techs { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .project-tech {
+      font-size: .75rem; padding: .2rem .6rem; border-radius: 4px;
+      background: rgba(124,58,237,.1); color: var(--accent2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .project-featured { grid-column: span 2; }
+    @media (max-width: 680px) { .project-featured { grid-column: span 1; } }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--surface); }
+    .contact-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;
+    }
+    .contact-info p { color: var(--muted); margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.25rem; border-radius: 12px;
+      background: var(--card); border: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      transition: all .2s;
+    }
+    .contact-link:hover { border-color: var(--accent2); transform: translateX(4px); }
+    .contact-link .link-icon { font-size: 1.4rem; }
+    .contact-link .link-label { font-size: .75rem; color: var(--muted); }
+    .contact-link .link-value { font-size: .9rem; font-weight: 500; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-form input,
+    .contact-form textarea {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: .85rem 1rem;
+      color: var(--text); font-family: 'Inter', sans-serif; font-size: .9rem;
+      outline: none; transition: border-color .2s; resize: none;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: var(--muted); }
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--accent); }
+    .contact-form textarea { min-height: 130px; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem; text-align: center; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: .85rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem; }
+      .nav-links { gap: 1.2rem; }
+      #about .about-grid { grid-template-columns: 1fr; }
+      .contact-wrapper { grid-template-columns: 1fr; }
+    }
+
+    /* ── FADE IN ANIMATION ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">gabriel.morais</span>
+    <ul class="nav-links">
+      <li><a href="#about">Sobre</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projetos</a></li>
+      <li><a href="#contact">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span>Disponível para oportunidades</div>
+      <h1>Gabriel Morais</h1>
+      <p class="subtitle">Desenvolvedor <span>Full Stack</span> &amp; Entusiasta de <span>IA</span></p>
+      <p class="hero-desc">
+        Estudante de Ciência da Computação em Franca, SP. Construo aplicações web modernas
+        com foco em back-end e integração com inteligência artificial.
+      </p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/></svg>
+          Ver Projetos
+        </a>
+        <a href="https://github.com/bielmorais30" target="_blank" rel="noopener" class="btn btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="num">12</div><div class="lbl">Repositórios</div></div>
+        <div class="stat"><div class="num">5+</div><div class="lbl">Linguagens</div></div>
+        <div class="stat"><div class="num">7</div><div class="lbl">Semestres</div></div>
+        <div class="stat"><div class="num">2019</div><div class="lbl">No GitHub</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-tag">// about me</p>
+        <h2 class="section-title">Sobre mim</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="about-grid fade-in">
+        <div class="about-text">
+          <p>
+            Sou <strong>Gabriel Morais de Oliveira</strong>, desenvolvedor apaixonado por tecnologia e construção de soluções que resolvem problemas reais. Atualmente no 7º semestre de <strong>Ciência da Computação</strong>, já acumulei experiência prática com desenvolvimento web full stack, back-end robusto e integração com IA.
+          </p>
+          <p>
+            Tenho experiência com o ecossistema <strong>PHP/Laravel</strong>, desenvolvimento <strong>Java com Spring Boot</strong> (incluindo JWT, OAuth2, Docker e AWS), além de criação de bots inteligentes com <strong>JavaScript e IA generativa</strong>.
+          </p>
+          <p>
+            Gosto de criar aplicações que combinam boa arquitetura com funcionalidades inovadoras. Meu projeto mais recente integra o <strong>WhatsApp com LLMs</strong> para processar e interpretar mensagens de áudio e texto automaticamente.
+          </p>
+        </div>
+        <div class="about-card">
+          <h4>// informações</h4>
+          <div class="info-item">
+            <span class="info-icon">📍</span>
+            <span class="info-label">Local</span>
+            <span class="info-value">Franca, SP — Brasil</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🎓</span>
+            <span class="info-label">Formação</span>
+            <span class="info-value">Ciência da Computação (7/8 sem.)</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">💼</span>
+            <span class="info-label">Status</span>
+            <span class="info-value" style="color: var(--green);">Disponível</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🌐</span>
+            <span class="info-label">GitHub</span>
+            <span class="info-value">bielmorais30</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🔗</span>
+            <span class="info-label">LinkedIn</span>
+            <span class="info-value">gabriel-morais-295539249</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-tag">// tech stack</p>
+        <h2 class="section-title">Habilidades</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card fade-in">
+          <h4>Linguagens</h4>
+          <div class="skill-tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">PHP</span>
+            <span class="tag">Java</span>
+            <span class="tag">Python</span>
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <h4>Frameworks &amp; Libs</h4>
+          <div class="skill-tags">
+            <span class="tag green">Node.js</span>
+            <span class="tag green">Laravel</span>
+            <span class="tag green">Spring Boot</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <h4>Back-end &amp; APIs</h4>
+          <div class="skill-tags">
+            <span class="tag blue">REST API</span>
+            <span class="tag blue">JWT</span>
+            <span class="tag blue">OAuth2</span>
+            <span class="tag blue">JPA / Hibernate</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <h4>DevOps &amp; Cloud</h4>
+          <div class="skill-tags">
+            <span class="tag orange">Docker</span>
+            <span class="tag orange">AWS</span>
+            <span class="tag orange">Git</span>
+            <span class="tag orange">GitHub</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <h4>Inteligência Artificial</h4>
+          <div class="skill-tags">
+            <span class="tag">LLMs</span>
+            <span class="tag">Visão Computacional</span>
+            <span class="tag">Processamento de Áudio</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <h4>Banco de Dados</h4>
+          <div class="skill-tags">
+            <span class="tag green">MySQL</span>
+            <span class="tag green">PostgreSQL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-tag">// featured work</p>
+        <h2 class="section-title">Projetos</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="projects-grid">
+
+        <!-- WhatsApp AI Bot — destaque -->
+        <div class="project-card project-featured fade-in">
+          <div class="project-header">
+            <span class="project-icon">🤖</span>
+            <div class="project-links">
+              <a href="https://github.com/bielmorais30/whatsappAudioInterpreterAI" target="_blank" rel="noopener">GitHub →</a>
+            </div>
+          </div>
+          <h3>WhatsApp Audio Interpreter AI</h3>
+          <p>
+            Bot inteligente que captura mensagens de áudio e texto do WhatsApp e, usando modelos de linguagem (LLMs),
+            interpreta o conteúdo e retorna um JSON estruturado. O resultado é consumido diretamente por um aplicativo
+            de controle financeiro pessoal — uma solução end-to-end que conecta comunicação cotidiana com automação financeira.
+          </p>
+          <div class="project-techs">
+            <span class="project-tech">JavaScript</span>
+            <span class="project-tech">Node.js</span>
+            <span class="project-tech">WhatsApp API</span>
+            <span class="project-tech">LLM / IA</span>
+            <span class="project-tech">JSON</span>
+          </div>
+        </div>
+
+        <!-- Championship App -->
+        <div class="project-card fade-in">
+          <div class="project-header">
+            <span class="project-icon">🏆</span>
+            <div class="project-links">
+              <a href="https://github.com/bielmorais30/championship_app" target="_blank" rel="noopener">GitHub →</a>
+            </div>
+          </div>
+          <h3>Championship App</h3>
+          <p>
+            Aplicação para gerenciamento completo de campeonatos — cadastro de times, rodadas, placar e classificação.
+            Desenvolvida com Laravel (Blade) e PHP, demonstrando domínio de MVC, rotas e templating no ecossistema PHP moderno.
+          </p>
+          <div class="project-techs">
+            <span class="project-tech">PHP</span>
+            <span class="project-tech">Laravel</span>
+            <span class="project-tech">Blade</span>
+            <span class="project-tech">MySQL</span>
+          </div>
+        </div>
+
+        <!-- Image Recognition -->
+        <div class="project-card fade-in">
+          <div class="project-header">
+            <span class="project-icon">👁️</span>
+            <div class="project-links">
+              <a href="https://github.com/bielmorais30/reconhecimento-imagem-GABRIEL-MORAIS" target="_blank" rel="noopener">GitHub →</a>
+            </div>
+          </div>
+          <h3>Reconhecimento de Imagem</h3>
+          <p>
+            Projeto universitário de Fundamentos de Inteligência Artificial explorando técnicas de visão computacional
+            para reconhecimento e classificação de imagens. Implementação prática de conceitos de IA aplicados a dados visuais.
+          </p>
+          <div class="project-techs">
+            <span class="project-tech">HTML</span>
+            <span class="project-tech">IA</span>
+            <span class="project-tech">Visão Computacional</span>
+          </div>
+        </div>
+
+        <!-- Spring Boot -->
+        <div class="project-card fade-in">
+          <div class="project-header">
+            <span class="project-icon">☕</span>
+            <div class="project-links">
+              <a href="https://github.com/bielmorais30/curso_springboot" target="_blank" rel="noopener">GitHub →</a>
+            </div>
+          </div>
+          <h3>Spring Boot Expert</h3>
+          <p>
+            Série de aplicações desenvolvidas durante o curso de Spring Boot Expert, cobrindo JPA, REST APIs,
+            autenticação com JWT &amp; OAuth2, containerização com Docker e deploy na AWS.
+          </p>
+          <div class="project-techs">
+            <span class="project-tech">Java</span>
+            <span class="project-tech">Spring Boot</span>
+            <span class="project-tech">JWT</span>
+            <span class="project-tech">OAuth2</span>
+            <span class="project-tech">Docker</span>
+            <span class="project-tech">AWS</span>
+          </div>
+        </div>
+
+        <!-- Task App -->
+        <div class="project-card fade-in">
+          <div class="project-header">
+            <span class="project-icon">✅</span>
+            <div class="project-links">
+              <a href="https://github.com/bielmorais30/app_tarefas" target="_blank" rel="noopener">GitHub →</a>
+            </div>
+          </div>
+          <h3>App de Tarefas</h3>
+          <p>
+            Aplicação CRUD completa de gerenciamento de tarefas construída em PHP puro, praticando padrões de
+            organização de código, interação com banco de dados e boas práticas de desenvolvimento web.
+          </p>
+          <div class="project-techs">
+            <span class="project-tech">PHP</span>
+            <span class="project-tech">MySQL</span>
+            <span class="project-tech">HTML</span>
+            <span class="project-tech">CSS</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-tag">// get in touch</p>
+        <h2 class="section-title">Contato</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="contact-wrapper fade-in">
+        <div class="contact-info">
+          <p>
+            Estou aberto a oportunidades de trabalho, freelas ou colaborações. Se tiver um projeto interessante
+            ou quiser bater um papo sobre tecnologia, é só chamar!
+          </p>
+          <div class="contact-links">
+            <a href="https://github.com/bielmorais30" target="_blank" rel="noopener" class="contact-link">
+              <span class="link-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--accent2)"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              </span>
+              <div>
+                <div class="link-label">GitHub</div>
+                <div class="link-value">github.com/bielmorais30</div>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/gabriel-morais-295539249/" target="_blank" rel="noopener" class="contact-link">
+              <span class="link-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--accent2)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </span>
+              <div>
+                <div class="link-label">LinkedIn</div>
+                <div class="link-value">gabriel-morais-295539249</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <input type="text" placeholder="Seu nome" required />
+          <input type="email" placeholder="Seu e-mail" required />
+          <textarea placeholder="Sua mensagem..." required></textarea>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            Enviar mensagem
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Desenvolvido por <span style="color: var(--accent2);">Gabriel Morais</span> &mdash; 2026</p>
+    <p style="margin-top:.4rem; font-size:.75rem;">Franca, SP &bull; Ciência da Computação</p>
+  </footer>
+
+  <script>
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Smooth active nav
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent2)' : '';
+      });
+    });
+
+    // Contact form placeholder
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Mensagem enviada!';
+      btn.style.background = 'var(--green)';
+      btn.style.borderColor = 'var(--green)';
+      setTimeout(() => {
+        btn.textContent = 'Enviar mensagem';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        e.target.reset();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
