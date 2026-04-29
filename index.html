@@ -637,19 +637,12 @@
       });
     });
 
-    // Contact form placeholder
     function handleSubmit(e) {
       e.preventDefault();
-      const btn = e.target.querySelector('button');
-      btn.textContent = 'Mensagem enviada!';
-      btn.style.background = 'var(--green)';
-      btn.style.borderColor = 'var(--green)';
-      setTimeout(() => {
-        btn.textContent = 'Enviar mensagem';
-        btn.style.background = '';
-        btn.style.borderColor = '';
-        e.target.reset();
-      }, 3000);
+      const [nameEl, emailEl, msgEl] = e.target.querySelectorAll('input, textarea');
+      const text = `Olá Gabriel! Vim pelo seu portfólio.\n\n*Nome:* ${nameEl.value}\n*E-mail:* ${emailEl.value}\n\n*Mensagem:*\n${msgEl.value}`;
+      window.open(`https://wa.me/5516993892506?text=${encodeURIComponent(text)}`, '_blank');
+      e.target.reset();
     }
   </script>
 </body>
